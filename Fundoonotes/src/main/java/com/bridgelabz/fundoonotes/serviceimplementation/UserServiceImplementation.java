@@ -6,15 +6,24 @@ import java.util.Random;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bridgelabz.fundoonotes.dto.UserInformationdto;
 import com.bridgelabz.fundoonotes.dto.UserLoginInformation;
 import com.bridgelabz.fundoonotes.dto.UserUpdatePassword;
 import com.bridgelabz.fundoonotes.entity.User;
 import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
+import com.bridgelabz.fundoonotes.response.MailResponse;
+import com.bridgelabz.fundoonotes.response.MailingandResponseOperation;
 import com.bridgelabz.fundoonotes.service.UserServices;
+import com.bridgelabz.fundoonotes.utility.JWTOperations;
+import com.bridgelabz.fundoonotes.utility.JavaMessageService;
 
+
+@Service
 public class UserServiceImplementation implements UserServices {
 
 	@Autowired
@@ -32,8 +41,7 @@ public class UserServiceImplementation implements UserServices {
 	@Autowired
 	MailingandResponseOperation response;
 
-	@Autowired
-	private BCryptPasswordEncoder encryption;
+	private BCryptPasswordEncoder encryption=new BCryptPasswordEncoder();
 
 	@Autowired
 	private UserRepository userRepository;
@@ -50,7 +58,9 @@ public class UserServiceImplementation implements UserServices {
 
 			String password = user.getPassword();
 			String encrptPassword = encryption.encode(password);
+			
 			user.setCreatedDate(LocalDateTime.now());
+		
 			user.setPassword(encrptPassword);
 			user.setVerified(false);
 			repository.registrationSave(user);
@@ -162,5 +172,7 @@ public class UserServiceImplementation implements UserServices {
 		return user;
 
 	}
+
+	
 
 }

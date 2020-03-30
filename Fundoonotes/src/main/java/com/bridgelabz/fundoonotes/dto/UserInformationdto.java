@@ -17,6 +17,7 @@ public class UserInformationdto
 	@NotNull
 	private String password;
 	@NotNull
-	private long phoneNumber;
+	private String mobileNumber;
+	
  
 }

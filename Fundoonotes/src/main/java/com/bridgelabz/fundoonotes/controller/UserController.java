@@ -27,8 +27,6 @@ public class UserController {
 	@Autowired
 	private UserServices services;
 	
-	
-	
 	@PostMapping("/user/register")
 	
 	ResponseEntity<UserResponse> userRegister(@RequestBody UserInformationdto informationdto) throws UserException {

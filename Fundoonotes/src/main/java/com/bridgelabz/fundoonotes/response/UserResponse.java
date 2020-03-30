@@ -19,12 +19,6 @@ public class UserResponse {
 		this.message = message;
 		this.statusCode = statusCode;
 	}
-	public UserResponse(String message, int statusCode, Object data) {
-		super();
-		this.message = message;
-		this.statusCode = statusCode;
-		this.data = data;
-	}
 	
 	
 

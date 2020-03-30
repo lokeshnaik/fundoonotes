@@ -1,10 +1,15 @@
 package com.bridgelabz.fundoonotes.repository;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+
 
 import com.bridgelabz.fundoonotes.dto.UserLoginInformation;
 import com.bridgelabz.fundoonotes.dto.UserUpdatePassword;
@@ -62,7 +67,7 @@ public class UserRepositoryImpl implements UserRepository {
 		Session session = entityManager.unwrap(Session.class);
 		Query q = session.createQuery("update User set password =:p" + " " + " " + "where id=:i");
 
-		q.setParameter("p", updatePassword.getConfirmPassword());
+		q.setParameter("p", updatePassword.getNewPassword());
 		q.setParameter("i", id);
 		// q.setParameter("pass", updatePassword.getOldPassword());
 		int status = q.executeUpdate();

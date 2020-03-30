@@ -13,8 +13,9 @@ public class UserUpdatePassword {
 	String oldPassword;
 	String newPassword;
 	String confirmPassword;
-	
-	
-	
+	public UserUpdatePassword() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 }
