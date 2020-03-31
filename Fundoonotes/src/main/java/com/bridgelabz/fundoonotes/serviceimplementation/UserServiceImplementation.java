@@ -70,6 +70,7 @@ public class UserServiceImplementation implements UserServices {
 			mail.setEmail(user.getEmail());
 			mail.setMessage(mailResponse);
 			mail.setSubject("verification");
+			messageService.sendEmail(user.getEmail(),"verification",mailResponse);
 			
 		} else {
 			throw new UserException("Email id already exists", HttpStatus.FORBIDDEN);
@@ -99,7 +100,8 @@ public class UserServiceImplementation implements UserServices {
 
 	@Override
 	@Transactional
-	public boolean verify(String token) throws Exception {
+	public boolean verify(String token) throws Exception 
+	{
 	
 		Long id = (long) jwtop.parseJWT(token);
 		repository.verify(id);
