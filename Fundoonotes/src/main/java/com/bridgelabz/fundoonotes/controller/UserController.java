@@ -1,8 +1,11 @@
 package com.bridgelabz.fundoonotes.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +32,10 @@ public class UserController {
 	
 	@PostMapping("/user/register")
 	
-	ResponseEntity<UserResponse> userRegister(@RequestBody UserInformationdto informationdto) throws UserException {
+	ResponseEntity<UserResponse> userRegister(@Valid@RequestBody UserInformationdto informationdto,BindingResult result) throws UserException {
+		if(result.hasErrors())
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"true"));
 		User information = services.userRegistration(informationdto);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
@@ -54,8 +60,10 @@ public class UserController {
 
 	@PostMapping("/user/login")
 
-	ResponseEntity<UserResponse> userLogin(@RequestBody UserLoginInformation information) throws UserException {
-
+	ResponseEntity<UserResponse> userLogin(@Valid@RequestBody UserLoginInformation information,BindingResult result) throws UserException {
+		if(result.hasErrors())
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"true"));
 		User loginResponse = new User();
 
 		loginResponse = services.userLogin(information);
@@ -96,7 +104,7 @@ public class UserController {
 	
 	ResponseEntity<UserResponse> getUserById(@RequestHeader("token") String token) throws UserException {
 		User user = services.getUserById(token);
-	//System.out.println(user.getNote()+"lokesh naik");
+	
 		
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new UserResponse("user present", 200, user));
 		
