@@ -17,8 +17,5 @@ public class UserLoginInformation {
 	@NotNull
 	private String password;
 	
-	
-	
-	
 
 }

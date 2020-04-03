@@ -20,8 +20,7 @@ public class UserInformationdto
 	private String lastName;
 	@Email
 	private String email;
-//	@NotBlank(message = "Password i mandatory")
-	@Size(min = 6,max = 12)
+	@NotBlank(message = "Password is mandatory")
 	private String password;
 	@Column(length = 10)
 	private Long phoneNumber;

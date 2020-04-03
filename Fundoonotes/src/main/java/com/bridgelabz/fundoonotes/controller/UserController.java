@@ -36,6 +36,7 @@ public class UserController {
 		if(result.hasErrors())
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
 					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"true"));
+	
 		User information = services.userRegistration(informationdto);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
@@ -64,6 +65,7 @@ public class UserController {
 		if(result.hasErrors())
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
 					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"true"));
+		
 		User loginResponse = new User();
 
 		loginResponse = services.userLogin(information);

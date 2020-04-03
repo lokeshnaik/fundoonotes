@@ -39,7 +39,7 @@ public class User
 	private String lastName;
 	@Email
 	private String email;
-	@Size(min=6 ,max=12)
+	@NotBlank(message ="Password is mandatory")
 	private String password;
 	@Column(length=10)
 	private Long phoneNummber;
