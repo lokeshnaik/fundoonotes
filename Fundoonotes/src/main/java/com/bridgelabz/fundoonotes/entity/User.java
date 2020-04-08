@@ -10,10 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Length;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,7 +40,7 @@ public class User
 	@NotBlank(message ="Password is mandatory")
 	private String password;
 	@Column(length=10)
-	private Long phoneNumber;
+	private String phoneNumber;
 	
 	
 	

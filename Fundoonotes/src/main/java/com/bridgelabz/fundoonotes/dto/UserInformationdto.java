@@ -21,10 +21,10 @@ public class UserInformationdto
 	private String lastName;
 	@Email
 	private String email;
-	@NotBlank(message = "Password is mandatory")
+	@Size(min=6,max=12)
 	private String password;
-	@Column(length = 10)
-	private Long phoneNumber;
+	@Pattern(regexp = "(\\5|6|7|8|9)[0-9]{9}")
+	private String phoneNumber;
 	
  
 }

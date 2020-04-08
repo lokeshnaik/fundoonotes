@@ -35,7 +35,7 @@ public class UserController {
 	ResponseEntity<UserResponse> userRegister(@Valid@RequestBody UserInformationdto informationdto,BindingResult result) throws UserException {
 		if(result.hasErrors())
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"true"));
+					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"null"));
 	
 		User information = services.userRegistration(informationdto);
 
@@ -64,7 +64,7 @@ public class UserController {
 	ResponseEntity<UserResponse> userLogin(@Valid@RequestBody UserLoginInformation information,BindingResult result) throws UserException {
 		if(result.hasErrors())
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"true"));
+					.body(new UserResponse(result.getAllErrors().get(0).getDefaultMessage(), 200,"null"));
 		
 		User loginResponse = new User();
 
