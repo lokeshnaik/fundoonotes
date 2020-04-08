@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,48 +12,42 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
-@Table(name="user_inform")
+@Table(name="note_inform")
 @AllArgsConstructor
 @NoArgsConstructor
 
-
-public class User
+public class Notes 
 {
-	@Id
+	@NotBlank(message = "Title is mandatory")	
+    private String title;
+    @NotBlank(message ="Description is mandantory")
+     private String description;
+    @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-	private long userId;
-	
-	@NotBlank(message = "FirstName is mandatory")
-	private String firstName;
-	@NotBlank(message = "lastName is mandatory")
-	private String lastName;
-	@Email
-	private String email;
-	@NotBlank(message ="Password is mandatory")
-	private String password;
-	@Column(length=10)
-	private String phoneNumber;
-	
-	
-	
-	private LocalDateTime createdDate;
-	private boolean isVerified;
-	
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Long noteId;
+   
+   private boolean isArchieved;
+   
+   private boolean isPinned;
+   
+   private boolean isTrashed;
+   
+   private LocalDateTime dataAndTimeCreated;
+   
+   private LocalDateTime upDateAndTime;
+   
+   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+
 	@JoinColumn(name = "userId")	
+
 	private List<Notes> notes;
-	
-	
+   
 }

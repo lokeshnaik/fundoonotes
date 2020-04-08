@@ -37,13 +37,16 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> loginValidate(UserLoginInformation information) {
+	public Optional<User> loginValidate(UserLoginInformation information) 
+	{
 		String email = information.getEmail();
 		Session session = entityManager.unwrap(Session.class);
 		return session.createQuery("FROM User where email =:email").setParameter("email", email).uniqueResultOptional();
 
 	}
-
+    
+	
+	
 	@Override
 	public boolean verify(Long id) {
 		Session session = entityManager.unwrap(Session.class);

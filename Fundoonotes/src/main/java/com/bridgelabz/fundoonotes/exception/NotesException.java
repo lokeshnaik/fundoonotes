@@ -12,15 +12,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 
-
-public class UserException extends Exception {
+public class NotesException extends Exception
+{
 	private static final long serialVersionUID = 1L;
-	private String message;
 	HttpStatus status;
-	LocalDateTime time;
-
-	public UserException(String message,HttpStatus status) {
+	private String message;
+	
+	public NotesException(String message,HttpStatus status) 
+	{
 		this.message = message;
 		this.status=status;
 	}
+	
 }
