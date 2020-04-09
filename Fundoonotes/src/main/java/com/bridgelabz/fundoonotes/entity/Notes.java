@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name="note_inform")
+@Table(name="note_information")
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -43,11 +43,5 @@ public class Notes
    private LocalDateTime dataAndTimeCreated;
    
    private LocalDateTime upDateAndTime;
-   
-   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-
-	@JoinColumn(name = "userId")	
-
-	private List<Notes> notes;
    
 }

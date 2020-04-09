@@ -37,7 +37,7 @@ public class NotesServicesImplementation implements NotesServices
      NotesServicesImplementation notesServicesImplementation;
   
 	@Override
-   @Transactional
+    @Transactional
 	public Notes addNotes(NotesInformationdto notesInformationdto, String token) throws UserException {
 		Long userId =(long )0;
 		  Notes notesInformation=new Notes();
@@ -49,7 +49,8 @@ public class NotesServicesImplementation implements NotesServices
 		 BeanUtils.copyProperties(notesInformationdto, notesInformation);
 		 notesInformation.setDataAndTimeCreated(LocalDateTime.now());
 		 
-		 
+		 user.getNotes().add(notesInformation);
 		  userRepository.registrationSave(user);
+		  System.out.println("hey Lokesh");
 		return notesInformation;
 	}}
