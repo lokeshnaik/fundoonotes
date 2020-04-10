@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonotes.dto.NotesInformationdto;
 import com.bridgelabz.fundoonotes.entity.Notes;
 import com.bridgelabz.fundoonotes.entity.User;
+import com.bridgelabz.fundoonotes.exception.NotesException;
 import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.NotesRepository;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
@@ -53,4 +54,20 @@ public class NotesServicesImplementation implements NotesServices
 		  userRepository.registrationSave(user);
 		  System.out.println("hey Lokesh");
 		return notesInformation;
-	}}
+	}
+	
+	@Override
+	@Transactional
+	public Notes deleteNotes(Long notesId, String token) throws UserException, NotesException {
+
+		Long userId = (Long) jwtop.parseJWT(token);
+		User user = repository.getUserById(userId).orElseThrow(() -> new UserException("User is not founded", HttpStatus.NOT_FOUND));
+		Notes notes = user.getNotes().stream().filter((note) -> note.getNoteId().equals(notesId)).findFirst().orElseThrow(() -> new NotesException("Note is not found", HttpStatus.NOT_FOUND));
+      	notes.setTrashed(true);
+      	notes.setArchieved(false);
+      	notes.setPinned(false);
+		userRepository.registrationSave(user);
+		
+		return notes;
+	}	
+}
