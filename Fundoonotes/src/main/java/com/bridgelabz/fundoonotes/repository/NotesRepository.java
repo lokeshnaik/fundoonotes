@@ -11,4 +11,5 @@ public interface NotesRepository
 	List<Notes> getPinnedNotes(long userid);
 	List<Notes> getArchievedNotes(long userid);
 	List<Notes> getTrashedNotes(long userid);
+	boolean updateNotes(Notes information,long id);
 }

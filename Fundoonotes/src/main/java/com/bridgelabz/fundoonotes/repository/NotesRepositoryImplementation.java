@@ -63,7 +63,22 @@ public class NotesRepositoryImplementation implements NotesRepository
 		List list = session.createQuery("from Notes where user_Id='" + userid + "'" + "and is_Trashed=true").getResultList();
 		return list;
 	}
-	
+	 
+	public boolean updateNotes( Notes information,long id)
+	{
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session.createQuery("update Notes set title=:title, description=:description where user_id=:id").setParameter("title", information.getTitle())
+				.setParameter("description", information.getDescription()).setParameter("id", id);
+		int result = query.executeUpdate();
+		if (result>=1)
+		{
+			return true;
+		}
+		else
+		{
+		return false;
+		}
+	}
 	
 	
 	

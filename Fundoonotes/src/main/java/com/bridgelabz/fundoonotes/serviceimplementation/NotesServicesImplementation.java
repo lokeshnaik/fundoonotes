@@ -118,4 +118,23 @@ public class NotesServicesImplementation implements NotesServices
 
 		return notes;
 	}
+	
+	@Transactional
+	@Override
+	public Notes updateNotes(Notes information, String token) throws UserException, NotesException 
+	{
+		Long userId = (long) 0;
+		userId = (Long) jwtop.parseJWT(token);
+		User user = repository.getUserById(userId).orElseThrow(() -> new UserException("User is not found", HttpStatus.NOT_FOUND));
+		Notes notes = user.getNotes().stream().filter((note) -> note.getNoteId().equals(information.getNoteId())).findFirst().orElseThrow(() -> new NotesException("note not found", HttpStatus.NOT_FOUND));
+		notes.setTitle(information.getTitle());
+		notes.setDescription(information.getDescription());
+		notes.setPinned(information.isPinned());
+		notes.setTrashed(information.isTrashed());
+		notes.setArchieved(information.isArchieved());
+		notes.setUpDateAndTime(LocalDateTime.now());
+		userRepository.registrationSave(user);
+     	return notes;
+	}
+	
 }

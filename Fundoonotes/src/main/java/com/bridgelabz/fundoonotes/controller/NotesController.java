@@ -60,5 +60,11 @@ public class NotesController
    	   		Notes notes = notesServices.trashNotes(notesId, token);
    	   		return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("Note Is Trashed", 200, notes));
      }
+   	 @PutMapping("/note/update")
+     public ResponseEntity<NotesResponse> updateNotes(@RequestBody Notes notes , @RequestHeader("token") String token) throws UserException, NotesException
+     {
+     	notesServices.updateNotes(notes ,token);
+     	return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("Note is Updated", 200 ,notes));
+     }
     
 }
