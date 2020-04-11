@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -37,5 +39,33 @@ public class NotesRepositoryImplementation implements NotesRepository
 		return false;
 		}
 	}
+	
+	@Override
+	public List<Notes> getPinnedNotes(long userid) 
+	{
+		Session session = entityManager.unwrap(Session.class);
+		List list = session.createQuery("From Notes where user_Id='" + userid + "'" + "and is_Pinned=true").getResultList();
+		return list;
+	}
+	
+	@Override
+	public List<Notes> getArchievedNotes(long userid) 
+	{
+		Session session = entityManager.unwrap(Session.class);
+		List list = session.createQuery("From Notes where user_Id='" + userid + "'" + "and is_Archieved=true").getResultList();
+		return list;
+	}
+	
+	@Override
+	public List<Notes> getTrashedNotes(long userid) 
+	{
+		Session session = entityManager.unwrap(Session.class);
+		List list = session.createQuery("from Notes where user_Id='" + userid + "'" + "and is_Trashed=true").getResultList();
+		return list;
+	}
+	
+	
+	
+	
 	
 }

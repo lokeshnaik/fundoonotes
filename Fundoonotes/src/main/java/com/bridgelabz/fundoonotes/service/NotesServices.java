@@ -10,4 +10,8 @@ public interface NotesServices
 	Notes addNotes(NotesInformationdto notesInformationdto,String token) throws UserException;
 	
 	Notes deleteNotes(Long notesId, String token)  throws UserException, NotesException;
+	Notes pinNote(Long notesId, String token)  throws UserException, NotesException;
+	Notes archieveNotes(long notesId, String token)  throws UserException, NotesException;
+	Notes trashNotes(long notesId, String token)  throws UserException, NotesException;
+	
 }

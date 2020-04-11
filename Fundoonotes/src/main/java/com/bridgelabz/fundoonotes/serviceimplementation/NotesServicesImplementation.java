@@ -70,4 +70,52 @@ public class NotesServicesImplementation implements NotesServices
 		
 		return notes;
 	}	
+	
+	@Transactional
+	@Override
+	public Notes pinNote(Long notesId, String token) throws UserException, NotesException {
+		Long userId = (Long) jwtop.parseJWT(token);
+
+		User user = repository.getUserById(userId).orElseThrow(() -> new UserException("User is not found", HttpStatus.NOT_FOUND));
+      	Notes notes = user.getNotes().stream().filter((note) -> note.getNoteId().equals(notesId)).findFirst()	.orElseThrow(() -> new NotesException("note not found", HttpStatus.NOT_FOUND));
+
+		notes.setPinned(true);
+		notes.setArchieved(false);
+		notes.setTrashed(false);
+		userRepository.registrationSave(user);
+
+		return notes;
+	}
+	
+	@Transactional
+	@Override
+	public Notes archieveNotes(long notesId, String token) throws UserException, NotesException 
+	{
+		Long userId = (Long) jwtop.parseJWT(token);
+
+		User user = repository.getUserById(userId).orElseThrow(() -> new UserException("User is not found", HttpStatus.NOT_FOUND));
+
+		Notes notes = user.getNotes().stream().filter((note) -> note.getNoteId().equals(notesId)).findFirst()	.orElseThrow(() -> new NotesException("note not found", HttpStatus.NOT_FOUND));
+
+		notes.setPinned(false);
+		notes.setArchieved(true);
+		notes.setTrashed(false);
+		userRepository.registrationSave(user);
+
+		return notes;
+	}
+	@Transactional
+	@Override
+	public Notes trashNotes(long notesId, String token) throws UserException, NotesException 
+	{
+		Long userId = (Long) jwtop.parseJWT(token);
+		User user = repository.getUserById(userId).orElseThrow(() -> new UserException("User is not found", HttpStatus.NOT_FOUND));
+		Notes notes = user.getNotes().stream().filter((note) -> note.getNoteId().equals(notesId)).findFirst()	.orElseThrow(() -> new NotesException("note not found", HttpStatus.NOT_FOUND));
+		notes.setPinned(false);
+		notes.setArchieved(false);
+		notes.setTrashed(true);
+		userRepository.registrationSave(user);
+
+		return notes;
+	}
 }

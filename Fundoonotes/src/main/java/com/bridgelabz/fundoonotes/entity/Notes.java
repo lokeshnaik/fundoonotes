@@ -32,16 +32,11 @@ public class Notes
      private String description;
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long noteId;
-   
-   private boolean isArchieved;
-   
-   private boolean isPinned;
-   
-   private boolean isTrashed;
-   
-   private LocalDateTime dataAndTimeCreated;
-   
-   private LocalDateTime upDateAndTime;
+    private Long noteId;   
+    private boolean isArchieved;
+    private boolean isPinned;
+    private boolean isTrashed;
+    private LocalDateTime dataAndTimeCreated;
+    private LocalDateTime upDateAndTime;
    
 }
