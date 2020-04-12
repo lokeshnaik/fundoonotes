@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bridgelabz.fundoonotes.entity.Notes;
+import com.bridgelabz.fundoonotes.entity.User;
 
 @Component
 public class NotesRepositoryImplementation implements NotesRepository 
@@ -18,12 +19,12 @@ public class NotesRepositoryImplementation implements NotesRepository
 	EntityManager entityManager;
 
 	@Override
-	  public Notes save(Notes notesInformation) {
+	public Notes save(Notes notesInformation) {
 		Session session = entityManager.unwrap(Session.class);
 		session.saveOrUpdate(notesInformation);
 		return notesInformation;
 	}
-	
+
 	@Override
 	public boolean deleteNotes(long notesId, long userId) {
 		Session session = entityManager.unwrap(Session.class);
@@ -36,10 +37,10 @@ public class NotesRepositoryImplementation implements NotesRepository
 		}
 		else
 		{
-		return false;
+			return false;
 		}
 	}
-	
+
 	@Override
 	public List<Notes> getPinnedNotes(long userid) 
 	{
@@ -47,7 +48,7 @@ public class NotesRepositoryImplementation implements NotesRepository
 		List list = session.createQuery("From Notes where user_Id='" + userid + "'" + "and is_Pinned=true").getResultList();
 		return list;
 	}
-	
+
 	@Override
 	public List<Notes> getArchievedNotes(long userid) 
 	{
@@ -55,7 +56,7 @@ public class NotesRepositoryImplementation implements NotesRepository
 		List list = session.createQuery("From Notes where user_Id='" + userid + "'" + "and is_Archieved=true").getResultList();
 		return list;
 	}
-	
+
 	@Override
 	public List<Notes> getTrashedNotes(long userid) 
 	{
@@ -63,7 +64,7 @@ public class NotesRepositoryImplementation implements NotesRepository
 		List list = session.createQuery("from Notes where user_Id='" + userid + "'" + "and is_Trashed=true").getResultList();
 		return list;
 	}
-	 
+ 
 	public boolean updateNotes( Notes information,long id)
 	{
 		Session session = entityManager.unwrap(Session.class);
@@ -76,11 +77,41 @@ public class NotesRepositoryImplementation implements NotesRepository
 		}
 		else
 		{
-		return false;
+			return false;
 		}
+	}
+
+	@Override
+	public List<Notes> getAllNotes(long userid) {
+		Session session = entityManager.unwrap(Session.class);		
+		List list = session.createQuery("from Notes where user_Id=:userid").setParameter("userid", userid).getResultList();
+		return list;	
+	}
+
+	@Override
+	public List<Notes> getAllTrashedNotes(long userid)
+	{
+		Session session = entityManager.unwrap(Session.class);
+		List list = session.createQuery("from Notes where user_Id='" + userid + "'" + "and is_Trashed=true").getResultList();
+		return list;
+	}
+	@Override
+	public List<Notes> getAllArchievedNote(long userid)
+	{
+		Session session = entityManager.unwrap(Session.class);
+		List list = session.createQuery("from Notes where user_Id='" + userid + "'" + "and is_Archieved=true").getResultList();
+		return list;
+	}
+	@Override
+	public List<Notes> getallpinnednotes(long userid)
+	{
+		Session session = entityManager.unwrap(Session.class);
+		List list = session.createQuery("from Notes where user_Id='" + userid + "'" + "and is_Pinned=true").getResultList();
+		return list;
 	}
 	
 	
-	
-	
+
+
+
 }

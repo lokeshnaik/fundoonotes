@@ -1,9 +1,12 @@
 package com.bridgelabz.fundoonotes.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -66,5 +69,32 @@ public class NotesController
      	notesServices.updateNotes(notes ,token);
      	return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("Note is Updated", 200 ,notes));
      }
+	
+   	@GetMapping("/note/getallNotes")
+    public ResponseEntity<NotesResponse> getallNotes( @RequestHeader("token") String token) throws UserException, NotesException
+    {
+    	List<Notes> list=notesServices.getallNotes(token);
+    	return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("List of all Notes", 200 ,list));
+    }
+   	
+ 	@GetMapping("/note/getallTrashed")
+    public ResponseEntity<NotesResponse> getalltrashed( @RequestHeader("token") String token) throws UserException, NotesException
+    {
+    	List<Notes> list=notesServices.getalltrashed(token);
+    	return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("List of all trashed Notes", 200 ,list));
+    }
+ 	
+ 	@GetMapping("/note/getallArchieve")
+    public ResponseEntity<NotesResponse> getallArchieveNotes( @RequestHeader("token") String token) throws UserException, NotesException
+    {
+    	List<Notes> list=notesServices.getallachieve(token);
+    	return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("List of all archieve Notes", 200 ,list));
+    }
+ 	@GetMapping("/note/getallPinned")
+    public ResponseEntity<NotesResponse> getallPinnedNotes( @RequestHeader("token") String token) throws UserException, NotesException
+    {
+    	List<Notes> list=notesServices.getAllPinnedNotes(token);
+    	return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("List of all pinned Notes", 200 ,list));
+    }
     
 }

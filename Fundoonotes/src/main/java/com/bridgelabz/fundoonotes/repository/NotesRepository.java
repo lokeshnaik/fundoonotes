@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.repository;
 import java.util.List;
 
 import com.bridgelabz.fundoonotes.entity.Notes;
+import com.bridgelabz.fundoonotes.entity.User;
 
 public interface NotesRepository 
 {
@@ -12,4 +13,9 @@ public interface NotesRepository
 	List<Notes> getArchievedNotes(long userid);
 	List<Notes> getTrashedNotes(long userid);
 	boolean updateNotes(Notes information,long id);
+	List <Notes> getAllNotes(long userid);
+	List <Notes> getAllTrashedNotes(long userid);
+	List <Notes> getAllArchievedNote(long userid);
+	List <Notes> getallpinnednotes(long userid);
+	
 }

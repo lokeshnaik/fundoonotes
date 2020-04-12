@@ -1,6 +1,8 @@
 package com.bridgelabz.fundoonotes.serviceimplementation;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -136,5 +138,43 @@ public class NotesServicesImplementation implements NotesServices
 		userRepository.registrationSave(user);
      	return notes;
 	}
+	@Transactional
+	@Override
+	public List<Notes> getallNotes(String token) 
+	{
+		
+		Long userId=(Long) jwtop.parseJWT(token);
+		List<Notes> notesList=notesRepository.getAllNotes(userId);
+		return notesList;
+		
+	}
+
+	@Transactional
+	@Override
+	public List<Notes> getalltrashed(String token) 
+	{
+		
+		Long userId=(Long) jwtop.parseJWT(token);
+		List<Notes> notesList=notesRepository.getAllTrashedNotes(userId);
+		return notesList;
+		
+	}
+	@Transactional
+	@Override
+	public List<Notes> getallachieve(String token) 
+	{	
+		Long userId=(Long) jwtop.parseJWT(token);
+		List<Notes> notesList=notesRepository.getAllArchievedNote(userId);
+		return notesList;	
+	}
 	
+	@Transactional
+	@Override
+	public List<Notes> getAllPinnedNotes(String token) 
+	{	
+		Long userId=(Long) jwtop.parseJWT(token);
+		List<Notes> notesList=notesRepository.getallpinnednotes(userId);
+		return notesList;
+		
+	}
 }
