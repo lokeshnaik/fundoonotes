@@ -21,6 +21,7 @@ import com.bridgelabz.fundoonotes.entity.Notes;
 import com.bridgelabz.fundoonotes.exception.NotesException;
 import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.response.NotesResponse;
+import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.response.UserResponse;
 import com.bridgelabz.fundoonotes.service.NotesServices;
 
@@ -96,5 +97,11 @@ public class NotesController
     	List<Notes> list=notesServices.getAllPinnedNotes(token);
     	return ResponseEntity.status(HttpStatus.CREATED).body(new NotesResponse("List of all pinned Notes", 200 ,list));
     }
+ 	@GetMapping("/note/getallsortedtitlenotes")
+	public ResponseEntity<NotesResponse> getAllSortedTitleNotes(@RequestHeader("token") String token) throws UserException {
+		List<Notes> list = notesServices.getAllNotesBySorted(token);
+		return ResponseEntity.status(HttpStatus.OK).body(new NotesResponse(" All Notes", 200, list));
+	}
+ 	
     
 }

@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.serviceimplementation;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,7 @@ public class NotesServicesImplementation implements NotesServices
 		Long userId = (Long) jwtop.parseJWT(token);
 
 		User user = repository.getUserById(userId).orElseThrow(() -> new UserException("User is not found", HttpStatus.NOT_FOUND));
-      	Notes notes = user.getNotes().stream().filter((note) -> note.getNoteId().equals(notesId)).findFirst()	.orElseThrow(() -> new NotesException("note not found", HttpStatus.NOT_FOUND));
+      	Notes notes = user.getNotes().stream().filter((note) -> note.getNoteId().equals(notesId)).findFirst()	.orElseThrow(() -> new NotesException("Note is not found", HttpStatus.NOT_FOUND));
 
 		notes.setPinned(true);
 		notes.setArchieved(false);
@@ -177,4 +178,13 @@ public class NotesServicesImplementation implements NotesServices
 		return notesList;
 		
 	}
+	
+	@Override
+	public List<Notes> getAllNotesBySorted(String token) throws UserException 
+	{
+		List<Notes> noteList = notesServicesImplementation.getallNotes(token);
+		List<Notes> sortedNoteList = noteList.stream().sorted(Comparator.comparing(Notes::getTitle)).collect(Collectors.toList());	
+		return sortedNoteList;
+	}
+
 }

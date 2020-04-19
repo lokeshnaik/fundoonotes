@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -38,5 +40,8 @@ public class Notes
     private boolean isTrashed;
     private LocalDateTime dataAndTimeCreated;
     private LocalDateTime upDateAndTime;
+    @ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},fetch=FetchType.LAZY)
+	@JoinTable(name = "Label_to_note", joinColumns = { @JoinColumn(name = "note_id") }, inverseJoinColumns ={@JoinColumn(name = "label_id") })
+		private List<Label> list;
    
 }

@@ -20,5 +20,6 @@ public interface NotesServices
 	List<Notes> getalltrashed( String token)  throws UserException;
 	List<Notes> getallachieve( String token)  throws UserException;
 	List<Notes> getAllPinnedNotes( String token)  throws UserException;
+	List<Notes> getAllNotesBySorted( String token)  throws UserException;
 	
 }

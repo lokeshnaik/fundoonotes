@@ -56,5 +56,9 @@ public class User
 	@JoinColumn(name = "userId")	
 	private List<Notes> notes;
 	
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinColumn(name = "userId")
+	private List<Label> label;
+	
 	
 }
