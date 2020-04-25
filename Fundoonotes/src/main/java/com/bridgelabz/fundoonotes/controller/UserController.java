@@ -125,7 +125,7 @@ public class UserController
 	
 	
 
-	    @PostMapping
+	    @PostMapping("/uploadfile")
 	    public Map<String, String> uploadFile(@RequestPart(value = "file") MultipartFile file)
 	    {
 	        this.amazonS3ClientService.uploadFileToS3Bucket(file, true);
@@ -136,7 +136,7 @@ public class UserController
 	        return response;
 	    }
 
-	    @DeleteMapping
+	    @DeleteMapping("/deletefile")
 	    public Map<String, String> deleteFile(@RequestParam("file_name") String fileName)
 	    {
 	        this.amazonS3ClientService.deleteFileFromS3Bucket(fileName);

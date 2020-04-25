@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Table(name="note_information")
 @AllArgsConstructor
 @NoArgsConstructor
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,scope = Notes.class)
 
 public class Notes 
 {
@@ -42,6 +46,6 @@ public class Notes
     private LocalDateTime upDateAndTime;
     @ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},fetch=FetchType.LAZY)
 	@JoinTable(name = "Label_to_note", joinColumns = { @JoinColumn(name = "note_id") }, inverseJoinColumns ={@JoinColumn(name = "label_id") })
-		private List<Label> list;
+		private List<Label> label;
    
 }

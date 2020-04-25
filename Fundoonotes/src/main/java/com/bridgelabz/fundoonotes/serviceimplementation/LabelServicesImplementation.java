@@ -89,7 +89,7 @@ public class LabelServicesImplementation implements LabelServices
 	
 	@Transactional
 	@Override
-	public void maplabeltonote(Labeldto labeldto, String token, long noteId)	throws LabelException, NotesException, UserException 
+	public Notes maplabeltonote(Labeldto labeldto, String token, long noteId)	throws LabelException, NotesException, UserException 
 	{
 		Label label = new Label();
 		Long userId = null;
@@ -99,14 +99,14 @@ public class LabelServicesImplementation implements LabelServices
 		BeanUtils.copyProperties(labeldto, label);
 		user.getLabel().add(label);
 		userRepository.registrationSave(user);
-		note.getList().add(label);
+		note.getLabel().add(label);
 		notesrepository.save(note);
-
+       return note;
 	}
 	
 	@Transactional
 	@Override
-	public void addingLabelToNote(long labelId, String token, long noteId)	throws NotesException, LabelException, UserException {
+	public Notes addingLabelToNote(long labelId, String token, long noteId)	throws NotesException, LabelException, UserException {
 		Long userId = null;
 		userId = (Long) jwtop.parseJWT(token);
 		User user = userRepository.getUserById(userId).orElseThrow(() -> new UserException("User is not found", HttpStatus.NOT_FOUND));
@@ -120,18 +120,22 @@ public class LabelServicesImplementation implements LabelServices
 		{
 			throw new LabelException("Label is not found", HttpStatus.NOT_FOUND);
 		}
-		label.getList().add(notes);
+		notes.getLabel().add(label);
+		notesrepository.save(notes);
 		labelRepository.save(label);
+		return notes;
 	}
 	
 	@Transactional
 	@Override
-	public void removingLabelFromNote(long labelId, String token, long noteId) throws NotesException, LabelException
+	public Notes removingLabelFromNote(long labelId, String token, long noteId) throws NotesException, LabelException
 	{
 		Notes notes = notesrepository.findById(noteId).orElseThrow(() -> new NotesException("Note is not found", HttpStatus.NOT_FOUND));
 		Label label = labelRepository.fetchLabelById(labelId).orElseThrow(() -> new LabelException("Label is not found", HttpStatus.NOT_FOUND));
-		label.getList().remove(notes);
+		notes.getLabel().add(label);
+		notesrepository.save(notes);
 		labelRepository.save(label);
+		return notes;
 	}
 
 	

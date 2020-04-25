@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundoonotes.dto.LabelUpdate;
 import com.bridgelabz.fundoonotes.dto.Labeldto;
 import com.bridgelabz.fundoonotes.entity.Label;
+import com.bridgelabz.fundoonotes.entity.Notes;
 import com.bridgelabz.fundoonotes.exception.LabelException;
 import com.bridgelabz.fundoonotes.exception.NotesException;
 import com.bridgelabz.fundoonotes.exception.UserException;
@@ -61,20 +62,20 @@ public class LabelController
 	@PostMapping("/label/maplabeltonote")
 	public ResponseEntity<UserResponse> maplabeltonote(@RequestBody Labeldto Labeldto, @RequestHeader("token") String token,@RequestParam("noteId") long noteId) throws LabelException, NotesException, UserException
 	{
-		services.maplabeltonote(Labeldto, token, noteId);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse("Label is created ", 200, Labeldto));
+		Notes notes=services.maplabeltonote(Labeldto, token, noteId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse("Label is created ", 200, notes));
 	}
 	
 	@PostMapping("/label/addlabeltonote")
 	public ResponseEntity<UserResponse> addlabel(@RequestParam("labelId") Long labelId,@RequestHeader("token") String token, @RequestParam("noteId") Long noteId) throws NotesException, LabelException, UserException {
-		services.addingLabelToNote(labelId, token, noteId);
-		return ResponseEntity.status(HttpStatus.OK).body(new UserResponse("label added ", 200));
+		Notes notes=services.addingLabelToNote(labelId, token, noteId);
+		return ResponseEntity.status(HttpStatus.OK).body(new UserResponse("label added ", 200,notes));
 	}
 	@PostMapping("/label/removelabelfromnote")
 	public ResponseEntity<UserResponse> removelabelfromnote(@RequestParam("labelId") long labelId,
 			@RequestHeader("token") String token, @RequestParam("noteId") long noteId) throws NotesException, LabelException {
-		services.removingLabelFromNote(labelId, token, noteId);
-		return ResponseEntity.status(HttpStatus.OK).body(new UserResponse("label removed ", 200));
+		Notes notes=services.removingLabelFromNote(labelId, token, noteId);
+		return ResponseEntity.status(HttpStatus.OK).body(new UserResponse("label removed ", 200,notes));
 
 	}
 }
