@@ -63,20 +63,18 @@ public class NotesServicesImplementation implements NotesServices
 		 notesInformation.setDataAndTimeCreated(LocalDateTime.now());
 		  user.getNotes().add(notesInformation);
 	
-		  userRepository.registrationSave(user);
-		  
-		  
-		  
-		  
-		  
-		  List<Notes> notes=user.getNotes();
+		  userRepository.registrationSave(user);  
+		  User user2 =repository.getUserById(userId).orElseThrow(() ->new UserException("User Not Found",HttpStatus.NOT_FOUND));
+		
+		  List<Notes> notes=user2.getNotes();
+		
+			
 			for(Notes note : notes)
 			{
 				if(note.getTitle().equals(notesInformationdto.getTitle()))
 				{
 				try 
 				{
-					System.out.println(note+"------------------");
 					notessearchimplementation.creatingNote(note);
 				} 
 				catch (IOException e)
