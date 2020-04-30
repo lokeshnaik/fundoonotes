@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.serviceimplementation;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -37,8 +38,16 @@ public class NotesServicesImplementation implements NotesServices
      @Autowired
       NotesRepository notesRepository;
      
+     
+     @Autowired
+     NoteSearchImplementation notessearchimplementation;
+     
+     
+     
      @Autowired
      NotesServicesImplementation notesServicesImplementation;
+     
+    
   
 	@Override
     @Transactional
@@ -52,10 +61,33 @@ public class NotesServicesImplementation implements NotesServices
 		  
 		 BeanUtils.copyProperties(notesInformationdto, notesInformation);
 		 notesInformation.setDataAndTimeCreated(LocalDateTime.now());
-		 
-		 user.getNotes().add(notesInformation);
+		  user.getNotes().add(notesInformation);
+	
 		  userRepository.registrationSave(user);
-		  System.out.println("hey Lokesh");
+		  
+		  
+		  
+		  
+		  
+		  List<Notes> notes=user.getNotes();
+			for(Notes note : notes)
+			{
+				if(note.getTitle().equals(notesInformationdto.getTitle()))
+				{
+				try 
+				{
+					System.out.println(note+"------------------");
+					notessearchimplementation.creatingNote(note);
+				} 
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				return note;
+				}
+			}
+		   System.out.println("hey Lokesh");
+		
 		return notesInformation;
 	}
 	
@@ -69,6 +101,14 @@ public class NotesServicesImplementation implements NotesServices
       	notes.setTrashed(true);
       	notes.setArchieved(false);
       	notes.setPinned(false);
+      	String noteid=String.valueOf(notesId);
+      	try 
+      	{
+      		notessearchimplementation.deletingNote(noteid);
+		} catch (IOException e)
+      	{	
+			e.printStackTrace();
+		}
 		userRepository.registrationSave(user);
 		
 		return notes;
@@ -137,6 +177,14 @@ public class NotesServicesImplementation implements NotesServices
 		notes.setArchieved(information.isArchieved());
 		notes.setUpDateAndTime(LocalDateTime.now());
 		userRepository.registrationSave(user);
+		try
+		{
+			notessearchimplementation.updatingNote(notes);
+		} 
+		catch (Exception e)
+		{	
+			e.printStackTrace();
+		}
      	return notes;
 	}
 	@Transactional

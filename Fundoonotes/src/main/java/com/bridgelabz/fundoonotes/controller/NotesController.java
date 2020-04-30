@@ -24,6 +24,7 @@ import com.bridgelabz.fundoonotes.response.NotesResponse;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.response.UserResponse;
 import com.bridgelabz.fundoonotes.service.NotesServices;
+import com.bridgelabz.fundoonotes.serviceimplementation.NoteSearchImplementation;
 
 
 @RestController
@@ -31,6 +32,8 @@ public class NotesController
 {
 	@Autowired
 	private NotesServices notesServices;
+	@Autowired
+	NoteSearchImplementation notesearchimpl;
 	
     @PostMapping("/note/create")
     public ResponseEntity<NotesResponse> addNotes(@RequestBody NotesInformationdto information , @RequestHeader("token") String token) throws UserException
@@ -101,6 +104,13 @@ public class NotesController
 	public ResponseEntity<NotesResponse> getAllSortedTitleNotes(@RequestHeader("token") String token) throws UserException {
 		List<Notes> list = notesServices.getAllNotesBySorted(token);
 		return ResponseEntity.status(HttpStatus.OK).body(new NotesResponse(" All Notes", 200, list));
+	}
+ 	
+ 	@GetMapping("/searchByTitle/{title}")
+	public ResponseEntity<NotesResponse> searchByTitle(@RequestHeader String token,@PathVariable("title") String title)
+	{
+ 		List<Notes> list=notesearchimpl.searchingByTitle(title);
+ 		return ResponseEntity.status(HttpStatus.OK).body(new NotesResponse("search notes are:", 200, list));
 	}
  	
     
