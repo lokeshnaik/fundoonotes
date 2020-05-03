@@ -11,19 +11,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+
 @Table(name="user_inform")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -59,6 +66,13 @@ public class User
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "userId")
 	private List<Label> label;
+	
+	 @JsonIgnore
+	  @ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.LAZY)
+		@JoinTable(name = "notes_collaborator", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns ={@JoinColumn(name = "note_id") })
+			private List<Notes> collaboratornotes;
+	
+	
 	
 	
 }

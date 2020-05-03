@@ -21,14 +21,19 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+
+@Getter
+@Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,scope = Notes.class)
+
 @Table(name="note_information")
 @AllArgsConstructor
 @NoArgsConstructor
-//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,scope = Notes.class)
 
 public class Notes 
 {
@@ -47,5 +52,9 @@ public class Notes
     @ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE},fetch=FetchType.LAZY)
 	@JoinTable(name = "Label_to_note", joinColumns = { @JoinColumn(name = "note_id") }, inverseJoinColumns ={@JoinColumn(name = "label_id") })
 		private List<Label> label;
+    
+    @ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.LAZY)
+  	@JoinTable(name = "notes_collaborator", joinColumns = { @JoinColumn(name = "note_id") }, inverseJoinColumns ={@JoinColumn(name = "user_id") })
+  		private List<User> collaboratoruser;
    
 }
